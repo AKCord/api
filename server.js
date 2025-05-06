@@ -1,11 +1,20 @@
 import express from "express";
 import axios from "axios";
 import dotenv from "dotenv";
+import cors from "cors";
 
 // Load environment variables
 dotenv.config();
 
 const app = express();
+
+app.use(
+  cors({
+    origin: "*", // Allow all origins
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 
 // Middleware to parse JSON request bodies
 app.use(express.json());
