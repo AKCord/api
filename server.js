@@ -19,7 +19,6 @@ const formSubmissionLimiter = rateLimit({
 });
 
 const app = express();
-app.use(formSubmissionLimiter);
 
 app.use(
   cors({
