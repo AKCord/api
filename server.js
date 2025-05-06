@@ -2,11 +2,24 @@ import express from "express";
 import axios from "axios";
 import dotenv from "dotenv";
 import cors from "cors";
+import rateLimit from "express-rate-limit";
 
 // Load environment variables
 dotenv.config();
 
+const formSubmissionLimiter = rateLimit({
+  windowMs: 120 * 60 * 1000, // 1 hour
+  max: 1, // limit each IP to 5 form submissions per hour
+  standardHeaders: true,
+  message: {
+    error:
+      "Too many form submissions from this IP, please try again after an hour",
+    code: 429,
+  },
+});
+
 const app = express();
+app.use(formSubmissionLimiter);
 
 app.use(
   cors({
