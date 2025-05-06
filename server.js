@@ -27,6 +27,7 @@ app.use(
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
+app.use(formSubmissionLimiter);
 
 // Middleware to parse JSON request bodies
 app.use(express.json());
