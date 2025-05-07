@@ -7,16 +7,16 @@ import rateLimit from "express-rate-limit";
 // Load environment variables
 dotenv.config();
 
-// const formSubmissionLimiter = rateLimit({
-//   windowMs: 120 * 60 * 1000, // 1 hour
-//   max: 1, // limit each IP to 5 form submissions per hour
-//   standardHeaders: true,
-//   message: {
-//     error:
-//       "Too many form submissions from this IP, please try again after an hour",
-//     code: 429,
-//   },
-// });
+const formSubmissionLimiter = rateLimit({
+  windowMs: 12 * 60 * 60 * 1000,
+  max: 1, // limit each IP to 5 form submissions per hour
+  standardHeaders: true,
+  message: {
+    error:
+      "Too many form submissions from this IP, please try again after an hour",
+    code: 429,
+  },
+});
 
 const app = express();
 
@@ -27,10 +27,10 @@ app.use(
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
-// app.use(formSubmissionLimiter);
 
 // Middleware to parse JSON request bodies
 app.use(express.json());
+app.use(formSubmissionLimiter);
 
 /**
  * Converts a Date object or timestamp to Discord timestamp format
